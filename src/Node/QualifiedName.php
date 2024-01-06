@@ -20,9 +20,9 @@ use Microsoft\PhpParser\TokenKind;
 class QualifiedName extends Node implements NamespacedNameInterface {
     use NamespacedNameTrait;
 
-    /** @var Token */
+    /** @var Token|null */
     public $globalSpecifier; // \_opt
-    /** @var RelativeSpecifier */
+    /** @var RelativeSpecifier|null */
     public $relativeSpecifier; // namespace\
     /** @var array */
     public $nameParts;
@@ -85,10 +85,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             $this->parent instanceof Node\Statement\NamespaceUseDeclaration ||
             $this->parent instanceof Node\NamespaceUseClause ||
             $this->parent instanceof Node\NamespaceUseGroupClause ||
-            $this->parent->parent instanceof Node\TraitUseClause ||
-            $this->parent instanceof Node\TraitSelectOrAliasClause ||
-            ($this->parent instanceof TraitSelectOrAliasClause &&
-            ($this->parent->asOrInsteadOfKeyword == null || $this->parent->asOrInsteadOfKeyword->kind === TokenKind::AsKeyword))
+            $this->parent instanceof Node\TraitSelectOrAliasClause
         ) {
             return null;
         }
@@ -157,10 +154,8 @@ class QualifiedName extends Node implements NamespacedNameInterface {
 
     /**
      * @param ResolvedName[] $importTable
-     * @param bool $isCaseSensitive
-     * @return string|null
      */
-    private function tryResolveFromImportTable($importTable, bool $isCaseSensitive = false) {
+    private function tryResolveFromImportTable($importTable, bool $isCaseSensitive = false): ?ResolvedName {
         $content = $this->getFileContents();
         $index = $this->nameParts[0]->getText($content);
 //        if (!$isCaseSensitive) {
