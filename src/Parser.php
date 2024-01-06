@@ -3393,22 +3393,6 @@ class Parser {
         return $enumCaseDeclaration;
     }
 
-    private function parseEnumInterfaceClause(EnumDeclaration $enumDeclaration): ?EnumInterfaceClause {
-        $enumInterfaceClause = new EnumInterfaceClause();
-        $enumInterfaceClause->parent = $enumDeclaration;
-        $enumInterfaceClause->implementsKeyword = $this->eatOptional1(TokenKind::ImplementsKeyword);
-
-        if ($enumInterfaceClause->implementsKeyword === null) {
-            return null;
-        }
-
-        $enumInterfaceClause->interfaceNameList =
-            $this->parseQualifiedNameList($enumInterfaceClause);
-        return $enumInterfaceClause;
-    }
-
-
-
     /**
      * @param Node $parentNode
      * @param Token[] $modifiers
@@ -3754,7 +3738,6 @@ class Parser {
             $enumDeclaration->enumType = $this->tryParseParameterTypeDeclaration($enumDeclaration)
                 ?: new MissingToken(TokenKind::EnumType, $this->token->fullStart);
         }
-        $enumDeclaration->enumInterfaceClause = $this->parseEnumInterfaceClause($enumDeclaration);
 
         $enumDeclaration->enumInterfaceClause = $this->parseEnumInterfaceClause($enumDeclaration);
         $enumDeclaration->enumMembers = $this->parseEnumMembers($enumDeclaration);
