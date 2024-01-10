@@ -3372,10 +3372,35 @@ class Parser {
 
         $classConstDeclaration->modifiers = $modifiers;
         $classConstDeclaration->constKeyword = $this->eat1(TokenKind::ConstKeyword);
+        $classConstDeclaration->typeDeclarationList = $this->tryParseConstantTypeDeclarationList($classConstDeclaration);
         $classConstDeclaration->constElements = $this->parseConstElements($classConstDeclaration);
         $classConstDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
 
         return $classConstDeclaration;
+    }
+
+    /**
+     * @param Node|null $parentNode
+     * @return DelimitedList\QualifiedNameList|null
+     */
+    private function tryParseConstantTypeDeclarationList($parentNode) {
+        return $this->parseUnionTypeDeclarationList(
+            $parentNode,
+            function ($token) {
+                return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) ||
+                    $this->isQualifiedNameStart($token);
+            },
+            function ($parentNode) {
+                return $this->tryParseConstantTypeDeclaration($parentNode);
+            },
+            TokenKind::Name
+        );
+    }
+
+    private function tryParseConstantTypeDeclaration($parentNode): Token|null|QualifiedName {
+        $constantTypeDeclaration =
+            $this->eatOptional($this->parameterTypeDeclarationTokens) ?? $this->parseQualifiedName($parentNode);
+        return $constantTypeDeclaration;
     }
 
     private function parseEnumCaseDeclaration($parentNode) {

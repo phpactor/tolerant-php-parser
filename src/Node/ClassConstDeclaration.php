@@ -23,6 +23,9 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
     /** @var Token */
     public $constKeyword;
 
+    /** @var DelimitedList\QualifiedNameList|MissingToken|null */
+    public $typeDeclarationList;
+
     /** @var DelimitedList\ConstElementList */
     public $constElements;
 
@@ -33,6 +36,7 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
         'attributes',
         'modifiers',
         'constKeyword',
+        'typeDeclarationList',
         'constElements',
         'semicolon'
     ];
