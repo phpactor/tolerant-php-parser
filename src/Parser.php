@@ -1069,6 +1069,8 @@ class Parser {
             case TokenKind::PublicKeyword:
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
+            case TokenKind::ProtectedSetKeyword:
+            case TokenKind::PrivateSetKeyword:
 
             // static-modifier
             case TokenKind::StaticKeyword:
@@ -1574,6 +1576,8 @@ class Parser {
             case TokenKind::PublicKeyword:
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
+            case TokenKind::ProtectedSetKeyword:
+            case TokenKind::PrivateSetKeyword:
 
             // static-modifier
             case TokenKind::StaticKeyword:
@@ -1594,6 +1598,8 @@ class Parser {
             case TokenKind::PublicKeyword:
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
+            case TokenKind::ProtectedSetKeyword:
+            case TokenKind::PrivateSetKeyword:
 
             // readonly-modifier
             case TokenKind::ReadonlyKeyword:
@@ -1648,6 +1654,8 @@ class Parser {
                 case TokenKind::PublicKeyword:
                 case TokenKind::ProtectedKeyword:
                 case TokenKind::PrivateKeyword:
+                case TokenKind::ProtectedSetKeyword:
+                case TokenKind::PrivateSetKeyword:
                 case TokenKind::AttributeToken:
 
                 // dnf types (A&B)|C
